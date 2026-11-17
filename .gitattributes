@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.png binary
+upstream/*.original.js -text
+extension/*.js -text
+extension/patches/*.js -text
+canvas-retry.user.js -text

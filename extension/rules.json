@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "extensionPath": "/patches/canvas-client-v040.js"
+      }
+    },
+    "condition": {
+      "regexFilter": "^https://canvas\\.modelaryx\\.com/_next/static/chunks/04vm3dhh2jasn\\.js(?:\\?.*)?$",
+      "resourceTypes": [
+        "script"
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "extensionPath": "/patches/canvas-client-v020-1.0.42.js"
+      }
+    },
+    "condition": {
+      "regexFilter": "^https://canvas\\.best/assets/index-BcbSchFn\\.js(?:\\?.*)?$",
+      "resourceTypes": [
+        "script"
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "responseHeaders": [
+        {
+          "header": "Access-Control-Allow-Origin",
+          "operation": "set",
+          "value": "https://canvas.best"
+        }
+      ]
+    },
+    "condition": {
+      "regexFilter": "^https://image\\.yydsapi\\.uno/",
+      "initiatorDomains": [
+        "canvas.best"
+      ],
+      "resourceTypes": [
+        "xmlhttprequest"
+      ]
+    }
+  }
+]

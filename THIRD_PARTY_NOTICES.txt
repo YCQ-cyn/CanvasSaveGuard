@@ -1,0 +1,40 @@
+This extension also adapts the canvas.best v0.20.0 build of infinite-canvas.
+Source: https://github.com/basketikun/infinite-canvas/tree/v0.20.0
+Deployed resource: https://canvas.best/assets/index-BcbSchFn.js
+Original SHA-256: d945e49e52ee3a8636b3ee9f2ede5f7b851dbb8fcf665d08a24f91fd70f6ceeb
+Its MIT license is included in UPSTREAM_V020_LICENSE.txt.
+The original compiled resource and patch source accompany this delivery.
+
+This extension includes portions of infinite-canvas v0.4.0, by basketikun and contributors.
+Source: https://github.com/basketikun/infinite-canvas/tree/v0.4.0
+Deployed resource: https://canvas.modelaryx.com/_next/static/chunks/04vm3dhh2jasn.js
+The resource is modified to fix batch root click detection, node shell click handling,
+and cancellation of canvas panning. It retains the upstream page identity and artwork.
+The upstream v0.4.0 program is licensed under GNU AGPL version 3.
+The full upstream license is included in UPSTREAM_LICENSE.txt. The build script,
+extension source, and the exact original compiled resource are supplied alongside
+this distribution. Preferred upstream sources are linked as pinned Git submodules
+and documented in NOTICE.md. The MIT text below applies to fflate.
+
+fflate is Copyright (c) 2020 Arjun Barrett and contributors, MIT License.
+fflate source: https://github.com/101arrowz/fflate
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

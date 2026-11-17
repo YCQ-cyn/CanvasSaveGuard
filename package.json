@@ -1,0 +1,20 @@
+{
+  "name": "canvas-save-guard",
+  "version": "1.0.42",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "package": "node scripts/package.mjs",
+    "test": "node --test tests/core.test.mjs tests/cleanup.test.mjs tests/reference-audit.test.mjs tests/retry-bridge.test.mjs tests/retry-region.test.mjs tests/deletion-grace.test.mjs tests/batch-graph.test.mjs tests/project-deletion.test.mjs tests/media-report.test.mjs tests/cleanup-session.test.mjs tests/selection-layout.test.mjs tests/zip-streaming.test.mjs",
+    "test:browser": "node tests/browser.mjs"
+  },
+  "dependencies": {
+    "fflate": "0.8.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.0",
+    "fake-indexeddb": "^6.2.4",
+    "playwright": "1.65.0"
+  }
+}

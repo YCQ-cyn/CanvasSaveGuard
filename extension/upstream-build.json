@@ -1,0 +1,29 @@
+{
+  "site": "https://canvas.modelaryx.com",
+  "version": "v0.4.0",
+  "chunk": "04vm3dhh2jasn.js",
+  "originalSha256": "889e42fb3b1871e347252e4cea6bba8092e16bd66edeacba80413b455f3a34f2",
+  "supportedSites": [
+    {
+      "origin": "https://canvas.modelaryx.com",
+      "version": "v0.4.0",
+      "chunk": "04vm3dhh2jasn.js"
+    },
+    {
+      "origin": "https://canvas.best",
+      "version": "v0.20.0",
+      "chunk": "index-BcbSchFn.js",
+      "originalSha256": "d945e49e52ee3a8636b3ee9f2ede5f7b851dbb8fcf665d08a24f91fd70f6ceeb"
+    }
+  ],
+  "patches": [
+    "batch-root-click",
+    "pan-cancel",
+    "node-shell-click",
+    "deleted-history-interface",
+    "collapsed-batch-marker",
+    "offscreen-retry-interface",
+    "explicit-deletion-records",
+    "shift-rectangle-selection"
+  ]
+}

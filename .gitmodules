@@ -1,0 +1,6 @@
+[submodule "upstream/source-v040"]
+	path = upstream/source-v040
+	url = https://github.com/basketikun/infinite-canvas.git
+[submodule "upstream/source-v020"]
+	path = upstream/source-v020
+	url = https://github.com/basketikun/infinite-canvas.git

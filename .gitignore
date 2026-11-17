@@ -1,0 +1,11 @@
+node_modules/
+test-results/
+playwright-profile/
+extension/_metadata/
+/CanvasSaveGuard-extension/
+/*.zip
+/.env
+/.env.*
+*.log
+/extension/patches/canvas-client-v020-*.js
+!/extension/patches/canvas-client-v020-1.0.42.js
