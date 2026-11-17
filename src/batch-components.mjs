@@ -158,6 +158,11 @@ export function createBatchComponents(React, jsx, NativeNode, NativeCard, Lines,
               setDownloading(true);
               try { await batch?.downloadSelection(); } finally { setDownloading(false); }
             },downloading||!status?.imageCount,'将所选图片打包为 ZIP，选中的收起图片组包含整组已有原图'),
+            status?.emptyImageCount > 1 ? jsx.jsx('div', {
+              'data-guard-batch-reference-hint': true,
+              style: { flexBasis: '100%', textAlign: 'center', fontSize: 11, opacity: 0.8 },
+              children: `将参考图连到任一空图片节点，即可连接所选 ${status.emptyImageCount} 个空节点`,
+            }) : null,
           ],
         }),
       }) : null,

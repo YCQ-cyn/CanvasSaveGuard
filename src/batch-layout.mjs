@@ -1,6 +1,7 @@
 import { materializeBatchImage } from './batch-graph.mjs';
 import { compactSelectionPositions, snapGridOffset } from './selection-layout.mjs';
 import { copyImageNode } from './batch-clipboard.mjs';
+import { selectedEmptyImageIds } from './batch-reference.mjs';
 
 export function selectedDownloadNodes(nodes, selectedIds, selectedImages = []) {
   const index = canvasNodeIndex(nodes), children = new Map();
@@ -284,6 +285,7 @@ export function createBatchInteraction({ projectId, getNodes, updateNodes, commi
   let rectangleStart = null, rectangleSelection = new Map();
   let retryRectangle = null;
   let contextImage = null;
+  let connectionSelection = null;
   const gridSnapEnabled = () => !!globalThis.CanvasSaveGuard?.getGridSnap?.();
   const styleId = 'canvas-save-guard-batch-style';
   if (!doc.getElementById(styleId)) {
@@ -300,6 +302,8 @@ export function createBatchInteraction({ projectId, getNodes, updateNodes, commi
     doc.defaultView.dispatchEvent(new doc.defaultView.CustomEvent('canvas-guard-batch-selection',{detail:selected.size}));
   }
   function clearSelection(event) {
+    connectionSelection = event.target instanceof Element && event.target.closest('[data-guard-reference-port],[data-guard-batch-port]')
+      ? new Set(getSelectedIds()) : null;
     if (event.target instanceof Element && event.target.closest('[data-guard-batch-image],[data-guard-batch-toolbar],[data-guard-batch-port]')) return;
     if (event.shiftKey || event.ctrlKey || event.metaKey) return;
     selected.clear(); paintSelection();
@@ -460,8 +464,15 @@ export function createBatchInteraction({ projectId, getNodes, updateNodes, commi
   function selectionStatus(ids = getSelectedIds(), nodes = getNodes()) {
     const status = selectionLayoutState(nodes, ids);
     const index = canvasNodeIndex(nodes);
-    const imageCount = selected.size + [...ids].filter(id => index.get(id)?.type === 'image').length;
-    return { ...status, imageCount, canArrange: status.allCollapsed && status.rootCount > 0 && !selected.size };
+    const selectedNodes = [...ids].map(id => index.get(id)).filter(Boolean);
+    const imageCount = selected.size + selectedNodes.filter(node => node.type === 'image').length;
+    return { ...status, imageCount, emptyImageCount: selectedEmptyImageIds(selectedNodes, ids).length,
+      canArrange: status.allCollapsed && status.rootCount > 0 && !selected.size };
+  }
+  function takeConnectionSelection() {
+    const ids = connectionSelection;
+    connectionSelection = null;
+    return ids;
   }
   function setSelectionExpanded(expanded) {
     if (doc.documentElement.hasAttribute('data-canvas-guard-cleaning') || !globalThis.CanvasSaveGuardHistory?.idle()) return;
@@ -511,7 +522,7 @@ export function createBatchInteraction({ projectId, getNodes, updateNodes, commi
     projectId, beginDrag, isDragging: () => !!drag, deleteSelection, selectionCount: () => selected.size,
     refreshControls: paintSelection,
     downloadSelection: () => globalThis.CanvasSaveGuard?.downloadSelectedImages?.(selectedDownloadNodes(getNodes(),getSelectedIds(),selected.values())),
-    setSelectionExpanded, arrangeSelection, selectionStatus,
+    setSelectionExpanded, arrangeSelection, selectionStatus, takeConnectionSelection,
     selectionGroups: (ids = getSelectedIds(), nodes = getNodes()) => {
       const index = canvasNodeIndex(nodes);
       return [...ids].filter(id => index.has(id) && isExpandableImageGroup(index.get(id))).length;
@@ -553,6 +564,7 @@ export function createBatchInteraction({ projectId, getNodes, updateNodes, commi
       event.stopPropagation();
       if (event.button !== 0) return;
       if (doc.documentElement.hasAttribute('data-canvas-guard-cleaning')) return;
+      const connectionIds = takeConnectionSelection() || new Set(getSelectedIds());
       const childId = materialize(nodeId, imageId);
       if (!childId) return;
       selected.clear();
@@ -563,7 +575,7 @@ export function createBatchInteraction({ projectId, getNodes, updateNodes, commi
       doc.defaultView.addEventListener('mouseup', cancel, { once: true });
       requestAnimationFrame(() => {
         doc.defaultView.removeEventListener('mouseup', cancel);
-        if (!released) startConnection(event, childId, side);
+        if (!released) startConnection(event, childId, side, connectionIds);
       });
     },
     resolveConnectionTarget(world, handle, commit) {

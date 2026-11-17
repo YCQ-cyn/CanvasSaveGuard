@@ -1,5 +1,5 @@
 import { missingMediaDetails } from './media-locations.mjs';
-export const BUILD_VERSION='1.0.42';
+export const BUILD_VERSION='1.0.43';
 
 // Older pages keep their existing writer and vault. Recheck the latest project
 // through that writer rather than clearing a warning without verifying its bytes.

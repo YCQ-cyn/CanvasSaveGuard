@@ -2085,7 +2085,7 @@
   }
 
   // src/status-upgrade.mjs
-  var BUILD_VERSION = "1.0.42";
+  var BUILD_VERSION = "1.0.43";
   function installLegacyRecheck(guard, doc) {
     if (guard.recheckCurrent || guard.statusPatchVersion === BUILD_VERSION) return;
     guard.statusPatchVersion = BUILD_VERSION;
@@ -3931,7 +3931,7 @@ ${error.message}`);
   }
 
   // src/native-compatibility.mjs
-  var BATCH_VISUAL_VERSION = 20;
+  var BATCH_VISUAL_VERSION = 21;
   function installNativeCompatibility(guard, doc, expectedVersion) {
     if (doc.location.hostname !== "canvas.best") return;
     const shadow = doc.querySelector("#canvas-save-guard")?.shadowRoot;

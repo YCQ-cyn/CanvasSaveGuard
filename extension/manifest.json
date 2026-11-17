@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "画布助手",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "description": "自动保护画布与生成图片，校验完整 ZIP，按手动删除记录清理缓存，修复图片点击并支持 Shift 框选。",
   "minimum_chrome_version": "120",
   "permissions": [
@@ -65,7 +65,7 @@
     {
       "resources": [
         "patches/canvas-client-v040.js",
-        "patches/canvas-client-v020-1.0.42.js"
+        "patches/canvas-client-v020-1.0.43.js"
       ],
       "matches": [
         "https://canvas.modelaryx.com/*",

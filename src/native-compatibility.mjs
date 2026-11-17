@@ -1,4 +1,4 @@
-export const BATCH_VISUAL_VERSION = 20;
+export const BATCH_VISUAL_VERSION = 21;
 
 // The panel can be attached to a running page before its native application
 // bundle is reloaded. Report that distinction without replacing live state.

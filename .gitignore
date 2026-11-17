@@ -8,4 +8,4 @@ extension/_metadata/
 /.env.*
 *.log
 /extension/patches/canvas-client-v020-*.js
-!/extension/patches/canvas-client-v020-1.0.42.js
+!/extension/patches/canvas-client-v020-1.0.43.js

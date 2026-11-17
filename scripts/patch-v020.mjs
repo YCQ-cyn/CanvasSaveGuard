@@ -10,6 +10,7 @@ import { useSidebarWindow } from '../src/sidebar-window.mjs';
 import { commitCanvasHistory, retainedCanvasHistory } from '../src/history-commit.mjs';
 import { DELETION_GRACE_MS } from '../src/deletion-grace.mjs';
 import { materializeBatchImage, synchronizeBatchGraph, batchMediaDescriptor, batchMediaEqual, copyBatchMedia } from '../src/batch-graph.mjs';
+import { selectedEmptyImageIds, batchReferenceTargetIds, appendBatchReferenceConnections } from '../src/batch-reference.mjs';
 
 export function patchV020(original, createRetryBridge) {
   const hash = createHash('sha256').update(original).digest('hex');
@@ -29,6 +30,21 @@ export function patchV020(original, createRetryBridge) {
     'is=f.useCallback((K,de,ce,commit=false)=>{const world=lo(K,de),child=globalThis.CanvasSaveGuardBatch?.resolveConnectionTarget(world,ce,commit);if(child)return child;const ge=world,_e=');
   replace('const ce=is(K.clientX,K.clientY,de);ce.nodeId?',
     'const ce=is(K.clientX,K.clientY,de,true);ce.nodeId?');
+  replace('fE=f.useCallback((K,de,ce)=>{K.stopPropagation(),Le(lo(K.clientX,K.clientY)),ba({nodeId:de,handleType:ce})',
+    'fE=f.useCallback((K,de,ce,guardSelectedIds=globalThis.CanvasSaveGuardBatch?.takeConnectionSelection()||Co.current)=>{K.stopPropagation(),Le(lo(K.clientX,K.clientY)),ba({nodeId:de,handleType:ce,guardBatchTargets:guardSelectedIds.size>1?[...guardSelectedIds]:void 0})');
+  replace('function oae({side:e,visible:t,onMouseDown:n}){const r=ur[or(o=>o.theme)];return p.jsx("div",{className:',
+    'function oae({side:e,visible:t,onMouseDown:n}){const r=ur[or(o=>o.theme)];return p.jsx("div",{"data-guard-reference-port":true,className:');
+  replace('const{fromNodeId:ge,toNodeId:_e}=ce;xr.current.some(jt=>jt.fromNodeId===ge&&jt.toNodeId===_e)',
+    `const{fromNodeId:ge,toNodeId:_e}=ce;
+    const guardTargets=batchReferenceTargetIds(zn.current,K.guardBatchTargets,ce);
+    if(guardTargets.length>1){
+      globalThis.CanvasSaveGuardHistory?.commitPending();
+      re(current=>appendBatchReferenceConnections(current,ge,guardTargets));
+      Xe(new Set(guardTargets));Ee(null);Ze(null);
+      e.success("已为 "+guardTargets.length+" 个空图片节点连接参考图");
+      return;
+    }
+    xr.current.some(jt=>jt.fromNodeId===ge&&jt.toNodeId===_e)`);
   replace('function lL(e,t,n,r){const o=n.find',
     'function lL(e,t,n,r){const source=canvasNodeIndex(n).get(e);if(r==="target"&&source&&legacyBatchRoot(source,n))return lL(t,e,n,"source");const o=n.find');
   replace('p.jsx(qjt,{nodes:Z,selectedNodeIds:Ae',
@@ -209,7 +225,7 @@ export function patchV020(original, createRetryBridge) {
           });
         },
         setDragging:dragging=>{P.current=dragging;I.current=dragging;nn(dragging)},deleteImage:(nodeId,imageId)=>Av(nodeId,imageId),deleteNodes:ids=>xp(ids),
-        getSelectedIds:()=>Co.current,selectNodes:ids=>Xe(ids),getConnections:()=>xr.current,setClipboard:value=>{C.current=value},startConnection:(event,nodeId,side)=>fE(event,nodeId,side)});
+        getSelectedIds:()=>Co.current,selectNodes:ids=>Xe(ids),getConnections:()=>xr.current,setClipboard:value=>{C.current=value},startConnection:(event,nodeId,side,selectedIds)=>fE(event,nodeId,side,selectedIds)});
       globalThis.CanvasSaveGuardBatch=batch;
       batch.refreshControls();
       return()=>{batch.dispose();if(globalThis.CanvasSaveGuardBatch===batch)delete globalThis.CanvasSaveGuardBatch;};
@@ -281,7 +297,7 @@ export function patchV020(original, createRetryBridge) {
   // origin for its lazy syntax-highlighting chunk.
   source = source.replaceAll('import("./highlighted-body-OFNGDK62-DqkoDgyK.js")',
     'import("https://canvas.best/assets/highlighted-body-OFNGDK62-DqkoDgyK.js")');
-  source += `\n${[batchImagePosition,batchConnectionPath,createBatchInteraction,legacyBatchRoot,legacyBatchMembers,dragNodeMembers,retryRegionIntersects,removeBatchImage,pruneLegacyBatchNodes,animateBatchCard,batchPanelTop,batchIntersectsViewport,canvasNodeIndex,isExpandableImageGroup,isImageGroupExpanded,selectionLayoutState,selectedLayoutRoots,selectedLayoutUnits,arrangeSelectedNodes,selectedDownloadNodes,layoutTrackCenters,alignedSelectionPositions,compactSelectionPositions,snapGridPoint,snapGridOffset,selectionToolbarPosition,createBatchComponents,copyImageNode,useSidebarWindow,commitCanvasHistory,retainedCanvasHistory,materializeBatchImage,synchronizeBatchGraph,batchMediaDescriptor,batchMediaEqual,copyBatchMedia].map(fn=>fn.toString()).join('\n')}
+  source += `\n${[batchImagePosition,batchConnectionPath,createBatchInteraction,legacyBatchRoot,legacyBatchMembers,dragNodeMembers,retryRegionIntersects,removeBatchImage,pruneLegacyBatchNodes,animateBatchCard,batchPanelTop,batchIntersectsViewport,canvasNodeIndex,isExpandableImageGroup,isImageGroupExpanded,selectionLayoutState,selectedLayoutRoots,selectedLayoutUnits,arrangeSelectedNodes,selectedDownloadNodes,selectedEmptyImageIds,batchReferenceTargetIds,appendBatchReferenceConnections,layoutTrackCenters,alignedSelectionPositions,compactSelectionPositions,snapGridPoint,snapGridOffset,selectionToolbarPosition,createBatchComponents,copyImageNode,useSidebarWindow,commitCanvasHistory,retainedCanvasHistory,materializeBatchImage,synchronizeBatchGraph,batchMediaDescriptor,batchMediaEqual,copyBatchMedia].map(fn=>fn.toString()).join('\n')}
     function protectCanvasGeneratedMedia(signal,action){return globalThis.CanvasSaveGuard?.protectGeneratedMedia?globalThis.CanvasSaveGuard.protectGeneratedMedia(signal,action):action();}
     const CanvasGuardSidePanel=f.memo(qjt);
     const {Results:CanvasGuardBatchResults,Node:CanvasGuardNode,Toolbar:CanvasGuardToolbar}=createBatchComponents(f,p,ljt,xjt,CanvasGuardBatchLines,jjt,()=>ur[or(state=>state.theme)]);

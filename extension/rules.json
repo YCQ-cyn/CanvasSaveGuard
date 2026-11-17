@@ -21,7 +21,7 @@
     "action": {
       "type": "redirect",
       "redirect": {
-        "extensionPath": "/patches/canvas-client-v020-1.0.42.js"
+        "extensionPath": "/patches/canvas-client-v020-1.0.43.js"
       }
     },
     "condition": {
